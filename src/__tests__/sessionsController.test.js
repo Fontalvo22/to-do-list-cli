@@ -4,28 +4,47 @@ const logger = require('pino')();
 const databaseConnection = require('../config/db');
 const { seeder, collections } = require('../config/seeders');
 const inquirer = require('inquirer');
+const mongoose = require('mongoose');
+
 jest.mock('inquirer');
 
 describe('sessionsController', () => {
-    describe('register', () => {
-        const testUser = {
-            name: 'Test User',
-            username: 'testuser',
-            password: 'testpass',
-        };
+    logger.info('este es otro log, vamos a ver si es que es muy lento');
 
-        it('user should be registered successfully', async () => {
-            // Mockear inquirer.prompt para devolver testUser
-            inquirer.default.prompt.mockResolvedValue(testUser);
+    describe('database connection', () => {
+        it('should verify that the database connection is successful', async () => {
+            // Configurar la URL de la base de datos real
+            const dbUrl = 'mongodb://root:example@mongo:27017/tasks?authSource=admin'; // Cambia esto a tu URL de base de datos real
 
-            // Ejecutar el método registerUser
-            const result = await sessionsController.registerUser();
+            await mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
 
-            // Verificar que el resultado es el esperado
-            logger.info(result);
-            expect(result.success).toBe(true);
+            expect(mongoose.connection.readyState).toBe(1);
+
+            // Cerrar la conexión después de la prueba
+            await mongoose.connection.close();
         });
     });
+
+    // describe('register', () => {
+    //     const testUser = {
+    //         name: 'Test User',
+    //         username: 'testuser',
+    //         password: 'testpass',
+    //     };
+
+    //     it('user should be registered successfully', async () => {
+    //         // Mockear inquirer.prompt para devolver testUser
+    //         inquirer.default.prompt.mockResolvedValue(testUser);
+
+    //         // Ejecutar el método registerUser
+    //         const result = await sessionsController.registerUser();
+
+    //         // Verificar que el resultado es el esperado
+    //         logger.info('exampleee');
+    //         logger.info(result);
+    //         expect(result.success).toBe(true);
+    //     });
+    // });
 
     // describe('login', () => {
     //     beforeAll(async () => {

@@ -3,6 +3,8 @@ const inquirer = require('inquirer');
 const databaseConnection = require('../config/db');
 const { connection } = require('../config/db');
 const User = require('../models/User');
+console.log('another example');
+
 const sessionsController = {
     login: async () => {
         try {

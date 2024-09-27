@@ -2,6 +2,9 @@ const { Command } = require('commander');
 const sessionsController = require('../controllers/sessionsController');
 const program = new Command();
 const logger = require('pino')();
+
+console.log('exampleee');
+
 const commands = [
     {
         name: 'login',

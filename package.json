@@ -1,25 +1,25 @@
 {
-  "name": "to-do-cli",
-  "version": "1.0.0",
-  "description": "Franklin Fontalvo's portfolio project",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest --colors | npx pino-pretty --colorize --colorizeObjects",
-    "test:watch": "jest --watchAll --detectOpenHandles --colors | npx pino-pretty --colorize --colorizeObjects",
-    "dev": "npx nodemon index.js -L"
-  },
-  "author": "Franklin Fontalvo",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "commander": "^12.1.0",
-    "dotenv": "^16.4.5",
-    "inquirer": "^10.1.8",
-    "mongo-seeding": "^4.0.0",
-    "mongoose": "^8.5.3",
-    "pino": "^9.3.2"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0"
-  }
+    "name": "to-do-cli",
+    "version": "1.0.0",
+    "description": "Franklin Fontalvo's portfolio project",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest --colors | npx pino-pretty --colorize --colorizeObjects",
+        "test:watch": "npx jest --watchAll --detectOpenHandles --colors --no-cache | npx pino-pretty --colorize --colorizeObjects",
+        "dev": "npx nodemon index.js -L"
+    },
+    "author": "Franklin Fontalvo",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "commander": "^12.1.0",
+        "dotenv": "^16.4.5",
+        "inquirer": "^10.1.8",
+        "mongo-seeding": "^4.0.0",
+        "mongoose": "^8.5.3",
+        "pino": "^9.3.2"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0"
+    }
 }

@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
     mongo:
+        container_name: mongodb
         image: mongo
         restart: always
         environment:
@@ -13,6 +14,8 @@ services:
             - ./init-scripts/:/docker-entrypoint-initdb.d # Montar el directorio de scripts de inicialización
         ports:
             - 27018:27017
+        networks:
+            - internal_network
 
     mongo-express:
         image: mongo-express
@@ -28,6 +31,26 @@ services:
             - mongo
         depends_on:
             - mongo
+        networks:
+            - internal_network
+
+    server:
+        container_name: server
+        build: .
+        restart: always
+        environment:
+            MONGO_URL: mongodb://root:example@mongo:27018/tasks?authSource=admin
+        depends_on:
+            - mongo
+        networks:
+            - internal_network
+        volumes:
+            - .:/app
+            - /app/node_modules
 
 volumes:
     mongo-data:
+
+networks:
+    internal_network:
+        driver: bridge
