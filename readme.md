@@ -28,5 +28,4 @@ With all the containers running, you can interact with the app executing:
 | :-------------------------------------- | :------------------------------ |
 | Windows, **using the git bash console** | `docker exec -it app sh`        |
 | Windows, **using CMD or powershell**    | `docker exec -it app /bin/bash` |
-
-| Linux | `docker exec -it app /bin/bash` |
+| Linux                                   | `docker exec -it app /bin/bash` |
