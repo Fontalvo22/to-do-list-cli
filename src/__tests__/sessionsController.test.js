@@ -9,8 +9,6 @@ const mongoose = require('mongoose');
 jest.mock('inquirer');
 
 describe('sessionsController', () => {
-    logger.info('este es otro log, vamos a ver si es que es muy lento');
-
     describe('database connection', () => {
         it('should verify that the database connection is successful', async () => {
             // Configurar la URL de la base de datos real

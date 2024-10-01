@@ -34,12 +34,13 @@ services:
         networks:
             - internal_network
 
-    server:
-        container_name: server
+    app:
+        container_name: app
         build: .
         restart: always
         environment:
             MONGO_URL: mongodb://root:example@mongo:27018/tasks?authSource=admin
+            RUN_MODE: dev
         depends_on:
             - mongo
         networks:
