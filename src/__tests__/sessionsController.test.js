@@ -9,41 +9,21 @@ const mongoose = require('mongoose');
 jest.mock('inquirer');
 
 describe('sessionsController', () => {
-    describe('database connection', () => {
-        it('should verify that the database connection is successful', async () => {
-            // Configurar la URL de la base de datos real
-            const dbUrl = 'mongodb://root:example@mongo:27017/tasks?authSource=admin'; // Cambia esto a tu URL de base de datos real
-
-            await mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
-
-            expect(mongoose.connection.readyState).toBe(1);
-
-            // Cerrar la conexión después de la prueba
-            await mongoose.connection.close();
+    describe('register', () => {
+        const testUser = {
+            name: 'Test User',
+            username: 'testuser',
+            password: 'testpass',
+        };
+        it('user should be registered successfully', async () => {
+            // Mockear inquirer.prompt para devolver testUser
+            inquirer.default.prompt.mockResolvedValue(testUser);
+            // Ejecutar el método registerUser
+            const result = await sessionsController.registerUser();
+            // Verificar que el resultado es el esperado
+            expect(result.success).toBe(true);
         });
     });
-
-    // describe('register', () => {
-    //     const testUser = {
-    //         name: 'Test User',
-    //         username: 'testuser',
-    //         password: 'testpass',
-    //     };
-
-    //     it('user should be registered successfully', async () => {
-    //         // Mockear inquirer.prompt para devolver testUser
-    //         inquirer.default.prompt.mockResolvedValue(testUser);
-
-    //         // Ejecutar el método registerUser
-    //         const result = await sessionsController.registerUser();
-
-    //         // Verificar que el resultado es el esperado
-    //         logger.info('exampleee');
-    //         logger.info(result);
-    //         expect(result.success).toBe(true);
-    //     });
-    // });
-
     // describe('login', () => {
     //     beforeAll(async () => {
     //         // await databaseConnection();
