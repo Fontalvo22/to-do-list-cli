@@ -30,7 +30,6 @@ const executeCommand = (command, inputs = []) => {
             } else if (errorOutput.includes('unknown command')) {
                 reject(`Unknown command: ${command}`);
             } else {
-                console.log(output);
                 resolve(output);
             }
         });

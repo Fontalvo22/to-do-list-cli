@@ -1,14 +1,10 @@
 const logger = require('pino')();
 const inquirer = require('inquirer');
-const databaseConnection = require('../config/db');
-const { connection } = require('../config/db');
-const User = require('../models/User');
-console.log('another example');
-
+const User = require('@models/User');
+const { setTokenFile } = require('@utils/sessionTokenFileManager');
 const sessionsController = {
     login: async () => {
         try {
-            logger.error('login executing');
             const userData = await inquirer.default.prompt([
                 {
                     type: 'input',
@@ -21,7 +17,14 @@ const sessionsController = {
                     message: 'insert your password:',
                 },
             ]);
-            return userData;
+
+            const result = await User.login(userData.username, userData.password);
+
+            if (result.logged) {
+                setTokenFile(JSON.stringify({ token: result.token, refreshToken: result.refreshToken }));
+            }
+
+            return { success: result.logged, message: result.logged ? 'Login successful' : 'Login failed, check your data', token: result.token, refreshToken: result.refreshToken, user: result.user };
         } catch (error) {
             console.error('Error during login:', error);
         }
@@ -48,17 +51,16 @@ const sessionsController = {
             ]);
 
             const result = await User.registerUser(userData.name, userData.username, userData.password);
-            await connection.close();
 
-            if (result._id) {
-                logger.info('User registered successfully');
+            // await connection.close();
+            if (result._id != undefined) {
                 return { userData: result, success: true };
             } else {
                 logger.info('User registration failed');
                 return { userData: result, success: false };
             }
         } catch (error) {
-            await connection.close();
+            // await connection.close();
             return { userData: null, success: false, error: error.message };
         }
     },

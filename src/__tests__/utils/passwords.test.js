@@ -4,15 +4,15 @@ const { verifyPassword, createPasswordHash } = require('../../utils/passwords');
 
 describe('verifyPassword', () => {
     const password = 'testpassword';
-    const { salt, hash } = createPasswordHash(password);
+    const { hash } = createPasswordHash(password);
 
     it('should return true for correct password', () => {
-        const result = verifyPassword(password, hash, salt);
+        const result = verifyPassword(password, hash);
         expect(result).toBe(true);
     });
 
     it('should return false for incorrect password', () => {
-        const result = verifyPassword('wrongpassword', hash, salt);
+        const result = verifyPassword('wrongpassword', hash);
         expect(result).toBe(false);
     });
 });

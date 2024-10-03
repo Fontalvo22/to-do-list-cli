@@ -1,45 +1,63 @@
 // /c:/Users/Franklin/Documents/personal/to-do-cli/src/controllers/sessionsController.test.js
-const sessionsController = require('../controllers/sessionsController');
+const sessionsController = require('@controllers/sessionsController');
 const logger = require('pino')();
-const databaseConnection = require('../config/db');
-const { seeder, collections } = require('../config/seeders');
+
+const { connectDatabase, connection } = require('../config/db');
+const User = require('@models/User');
 const inquirer = require('inquirer');
-const mongoose = require('mongoose');
 
 jest.mock('inquirer');
 
 describe('sessionsController', () => {
-    describe('register', () => {
-        const testUser = {
-            name: 'Test User',
-            username: 'testuser',
-            password: 'testpass',
-        };
+    beforeAll(async () => {
+        await connectDatabase();
+        await User.deleteMany({});
+    });
+
+    afterAll(async () => {
+        await connection.close();
+    });
+
+    const testUser = {
+        name: 'Test User',
+        username: 'testuser',
+        password: 'testpass',
+    };
+
+    describe('register user', () => {
         it('user should be registered successfully', async () => {
-            // Mockear inquirer.prompt para devolver testUser
+            // Mock inquirer.prompt to return testUser
             inquirer.default.prompt.mockResolvedValue(testUser);
-            // Ejecutar el método registerUser
+
             const result = await sessionsController.registerUser();
-            // Verificar que el resultado es el esperado
             expect(result.success).toBe(true);
         });
+
+        it("user shouldn't be registered successfully, duplicated user", async () => {
+            // Mock inquirer.prompt to return testUser
+            inquirer.default.prompt.mockResolvedValue(testUser);
+
+            const result = await sessionsController.registerUser();
+
+            expect(result.success).toBe(false);
+        });
     });
-    // describe('login', () => {
-    //     beforeAll(async () => {
-    //         // await databaseConnection();
-    //         await seeder.import(collections);
-    //     });
-    //     it('should log user data on successful login', async () => {
-    //         const cliPath = path.join(__dirname, '../../index.js');
-    //         const cliProcess = spawn('node', [cliPath, 'login']);
-    //         cliProcess.stdin.write('example name\n');
-    //         cliProcess.stdin.write('testpass\n');
-    //         cliProcess.stdin.end();
-    //         let output = '';
-    //         cliProcess.stdout.on('data', data => {
-    //             // logger.info(`stdout: ${data}`);
-    //             output += data.toString();
-    //         });
-    //     });
-    // });
+
+    describe('login', () => {
+        it('user should login successfully', async () => {
+            inquirer.default.prompt.mockResolvedValue(testUser);
+            const result = await sessionsController.login();
+            logger.info(result);
+            expect(result.success).toBe(true);
+            expect(result.message).toBe('Login successful');
+        });
+
+        it("user shouldn't login successfully, wrong password", async () => {
+            inquirer.default.prompt.mockResolvedValue({ ...testUser, password: 'wrongpass' });
+            const result = await sessionsController.login();
+            logger.info(result);
+            expect(result.success).toBe(false);
+            expect(result.message).toBe('Login failed, check your data');
+        });
+    });
 });

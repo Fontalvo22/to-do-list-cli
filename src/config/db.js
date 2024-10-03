@@ -1,11 +1,12 @@
+require('dotenv').config();
 const { mongoose, connection } = require('mongoose');
-const uri = 'mongodb://root:example@localhost:27018/tasks?authSource=admin';
-
+const logger = require('pino')();
 const connectDatabase = async () => {
-    await mongoose.connect(uri);
-    console.log('connected to the database');
+    await mongoose.connect(process.env.DATABASE_CONNECTION_STRING);
 };
 
-connection.on('error', console.error.bind(console, 'connection error:'));
+connection.on('error', error => {
+    logger.error('an error on the DB has occurred', error);
+});
 
 module.exports = { connectDatabase, connection };

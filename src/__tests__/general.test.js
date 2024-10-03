@@ -1,18 +1,15 @@
 // /c:/Users/Franklin/Documents/personal/to-do-cli/src/controllers/sessionsController.test.js
 const sessionsController = require('../controllers/sessionsController');
 const logger = require('pino')();
-const databaseConnection = require('../config/db');
+const { connectDatabase } = require('../config/db');
 const mongoose = require('mongoose');
 
 jest.mock('inquirer');
 
-describe('sessionsController', () => {
+describe('General dependencies for the app', () => {
     describe('database connection', () => {
         it('should verify that the database connection is successful', async () => {
-            // Configurar la URL de la base de datos real
-            const dbUrl = 'mongodb://root:example@mongo:27017/tasks?authSource=admin'; // Cambia esto a tu URL de base de datos real
-
-            await mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+            await mongoose.connect(process.env.DATABASE_CONNECTION_STRING);
 
             expect(mongoose.connection.readyState).toBe(1);
 
