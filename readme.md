@@ -18,7 +18,7 @@ For you can check the logs and work with the hot reaload, execute:
 docker logs -f app
 ```
 
-For enter in `production` mode, you can enter in the `docker-compose.yml`, look for the service called "app" and change the environment variable `RUN_MODE` from `dev` to `production`
+For enter in `production` mode, you can enter in the `.env` file, look for the variable called `RUN_MODE`, and change to `production`
 
 ### If you are in production mode
 

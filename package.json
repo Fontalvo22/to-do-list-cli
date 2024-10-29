@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "description": "Franklin Fontalvo's portfolio project",
     "main": "index.js",
+    "bin": {
+        "tasks": "index.js"
+    },
     "scripts": {
         "test": "jest --colors | npx pino-pretty --colorize --colorizeObjects",
         "test:watch": "npx jest --watchAll --detectOpenHandles --colors --no-cache | npx pino-pretty --colorize --colorizeObjects",
@@ -20,6 +23,7 @@
         "module-alias": "^2.2.3",
         "mongo-seeding": "^4.0.0",
         "mongoose": "^8.5.3",
+        "nodemon": "^3.1.7",
         "pino": "^9.3.2",
         "pino-pretty": "^11.2.2"
     },

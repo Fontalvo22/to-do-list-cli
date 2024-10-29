@@ -47,7 +47,6 @@ describe('sessionsController', () => {
         it('user should login successfully', async () => {
             inquirer.default.prompt.mockResolvedValue(testUser);
             const result = await sessionsController.login();
-            logger.info(result);
             expect(result.success).toBe(true);
             expect(result.message).toBe('Login successful');
         });
@@ -55,7 +54,6 @@ describe('sessionsController', () => {
         it("user shouldn't login successfully, wrong password", async () => {
             inquirer.default.prompt.mockResolvedValue({ ...testUser, password: 'wrongpass' });
             const result = await sessionsController.login();
-            logger.info(result);
             expect(result.success).toBe(false);
             expect(result.message).toBe('Login failed, check your data');
         });

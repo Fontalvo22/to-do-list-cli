@@ -1,7 +1,7 @@
 const logger = require('pino')();
 const inquirer = require('inquirer');
-const User = require('@models/User');
-const { setTokenFile } = require('@utils/sessionTokenFileManager');
+const User = require('../models/User');
+const { setTokenFile } = require('../utils/sessionTokenFileManager');
 const sessionsController = {
     login: async () => {
         try {
@@ -52,15 +52,17 @@ const sessionsController = {
 
             const result = await User.registerUser(userData.name, userData.username, userData.password);
 
-            // await connection.close();
+            logger.info('user registered successfully');
+
             if (result._id != undefined) {
                 return { userData: result, success: true };
             } else {
-                logger.info('User registration failed');
+                logger.error('User registration failed');
                 return { userData: result, success: false };
             }
         } catch (error) {
             // await connection.close();
+            console.log(error);
             return { userData: null, success: false, error: error.message };
         }
     },
