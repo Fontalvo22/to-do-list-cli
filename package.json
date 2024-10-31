@@ -9,7 +9,8 @@
     "scripts": {
         "test": "jest --colors | npx pino-pretty --colorize --colorizeObjects",
         "test:watch": "npx jest --watchAll --detectOpenHandles --colors --no-cache | npx pino-pretty --colorize --colorizeObjects",
-        "dev": "npx nodemon index.js -L"
+        "dev": "npx nodemon -L . | npx pino-pretty --colorize --colorizeObjects",
+        "dev:tests": "npx nodemon index.js -L --config nodemon-tests "
     },
     "author": "Franklin Fontalvo",
     "license": "ISC",
@@ -18,14 +19,17 @@
         "colorette": "^2.0.20",
         "commander": "^12.1.0",
         "dotenv": "^16.4.5",
+        "esm": "^3.2.25",
         "inquirer": "^10.1.8",
         "jsonwebtoken": "^9.0.2",
         "module-alias": "^2.2.3",
         "mongo-seeding": "^4.0.0",
         "mongoose": "^8.5.3",
         "nodemon": "^3.1.7",
+        "ora": "^8.1.0",
         "pino": "^9.3.2",
-        "pino-pretty": "^11.2.2"
+        "pino-pretty": "^11.2.2",
+        "systemjs": "^6.15.1"
     },
     "devDependencies": {
         "jest": "^29.7.0"

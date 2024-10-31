@@ -1,7 +1,12 @@
-const logger = require('pino')();
 const inquirer = require('inquirer');
 const User = require('../models/User');
 const { setTokenFile } = require('../utils/sessionTokenFileManager');
+
+let spinner;
+(async () => {
+    spinner = await require('../utils/spinner');
+})();
+
 const sessionsController = {
     login: async () => {
         try {
@@ -49,21 +54,33 @@ const sessionsController = {
                     message: 'insert your password:',
                 },
             ]);
-
             const result = await User.registerUser(userData.name, userData.username, userData.password);
 
-            logger.info('user registered successfully');
+            const spinnerSecond = spinner.default('Loading unicorns').start();
+            spinnerSecond.color = 'blue';
+            spinnerSecond.text = 'verifying credentials \n';
 
-            if (result._id != undefined) {
-                return { userData: result, success: true };
-            } else {
-                logger.error('User registration failed');
-                return { userData: result, success: false };
-            }
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    console.log('user registered successfully');
+
+                    if (!result._id) {
+                        spinnerSecond.fail('user not registered');
+                        console.log('user not registered');
+                        reject({ userData: result, success: result._id ? true : false });
+                    }
+
+                    spinnerSecond.succeed('user registered successfully');
+                    resolve({ userData: result, success: result._id ? true : false });
+                }, 1000); // 1 second delay
+            });
         } catch (error) {
             // await connection.close();
             console.log(error);
-            return { userData: null, success: false, error: error.message };
+            setTimeout(() => {
+                console.log('user not registered successfully');
+                resolve({ userData: result, success: result._id ? true : false });
+            }, 1000);
         }
     },
 };

@@ -1,6 +1,4 @@
-const { Command } = require('commander');
 const sessionsController = require('../controllers/sessionsController');
-const program = new Command();
 const logger = require('pino')();
 
 const commands = [
@@ -16,11 +14,8 @@ const commands = [
     },
 ];
 
-commands.forEach(cmd => {
-    const command = new Command(cmd.name).description(cmd.description).action(cmd.action);
-    program.addCommand(command);
-});
-
-program.parse(process.argv);
-
-module.exports = program;
+module.exports = program => {
+    commands.forEach(cmd => {
+        program.command(cmd.name).description(cmd.description).action(cmd.action);
+    });
+};

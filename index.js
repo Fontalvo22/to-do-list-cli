@@ -14,13 +14,17 @@ const main = async () => {
         program.name('todo list').description('A simple CLI Todo app').version('1.0.0');
 
         // Register your commands here
-        program.addCommand(sessionsCommands);
+        sessionsCommands(program);
 
-        program.parse(process.argv);
+        program.parseAsync(process.argv).then(() => {
+            process.exit(0);
+        });
     } catch (error) {
         console.error('Error connecting to the database:', error);
         process.exit(1);
-    }
+    } // finally {
+    //    await closeDatabaseConnection();
+    // }
 };
 
 main();

@@ -37,7 +37,7 @@ services:
     app:
         container_name: app
         build: .
-        restart: always
+        # restart: always
         env_file:
             - .env
         depends_on:
