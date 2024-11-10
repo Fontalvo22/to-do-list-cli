@@ -3,12 +3,17 @@ const jwt = require('jsonwebtoken');
 
 const getTokenFile = () => {
     const tokenFile = fileSystem.readFileSync('.session_token', 'utf8');
+
+    if (tokenFile === '') {
+        return {};
+    }
+
     return JSON.parse(tokenFile);
 };
 
 const setTokenFile = token => {
     let result = fileSystem.writeFileSync('.session_token', token);
-    console.log(result);
+    // console.log(result);
 };
 
 const getDecodedToken = () => {

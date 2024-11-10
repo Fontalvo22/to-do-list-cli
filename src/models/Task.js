@@ -29,6 +29,22 @@ const taskSchema = new mongoose.Schema({
     },
 });
 
+taskSchema.pre('save', function (next) {
+    setTimeout(next, 1000); // 1000 ms de retraso
+});
+
+taskSchema.pre('find', function (next) {
+    setTimeout(next, 1000); // 1000 ms de retraso
+});
+
+taskSchema.pre('updateOne', function (next) {
+    setTimeout(next, 1000); // 1000 ms de retraso
+});
+
+taskSchema.pre('findOneAndUpdate', function (next) {
+    setTimeout(next, 1000); // 1000 ms de retraso
+});
+
 taskSchema.statics.createTask = async function (title, description, user_id) {
     try {
         const task = await Task.create({ title, description, user_id });
@@ -40,9 +56,9 @@ taskSchema.statics.createTask = async function (title, description, user_id) {
     }
 };
 
-taskSchema.statics.editTask = async function (taskId, title, description, status) {
+taskSchema.statics.editTask = async function (taskId, title, description) {
     try {
-        const task = await Task.findOneAndUpdate({ _id: taskId }, { title, description, status }, { new: true });
+        const task = await Task.findOneAndUpdate({ _id: taskId }, { title, description }, { new: true });
         return task;
     } catch (error) {
         logger.error(error);

@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
     },
 });
 
+userSchema.pre('findOne', function (next) {
+    setTimeout(next, 1000); // 1000 ms de retraso
+});
+
 userSchema.statics.registerUser = async function (name, username, password) {
     try {
         const hashedPassword = createPasswordHash(password);
