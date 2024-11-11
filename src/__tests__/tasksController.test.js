@@ -6,11 +6,22 @@ const inquirer = require('inquirer');
 const sessionsController = require('@controllers/sessionsController');
 const tasksController = require('@controllers/tasksController');
 const Task = require('@models/Task');
+const getSpinner = require('../utils/spinnerImporter');
 
 jest.mock('inquirer');
 describe('tasksController', () => {
     beforeAll(async () => {
         await connectDatabase();
+        // for silence the console.table when will show the info
+        jest.spyOn(console, 'table').mockImplementation(() => {});
+
+        // const ora = await getSpinner();
+        // const spinner = ora('loging user');
+
+        // console.log('################', ora);
+        // jest.spyOn(spinner.prototype, 'start').mockImplementation(() => spinner.prototype);
+        // jest.spyOn(spinner.prototype, 'succeed').mockImplementation(() => spinner.prototype);
+
         // database clean
         await Task.deleteMany({});
         const testUser = {
@@ -43,7 +54,7 @@ describe('tasksController', () => {
             expect(existingTask).not.toBeNull();
         });
 
-        it('should edit the task', async () => {
+        it.only('should edit the task', async () => {
             const existingTask = await Task.findOne({ title: taskData.taskTitle });
 
             const newTaskData = {

@@ -2,9 +2,9 @@ const inquirer = require('inquirer');
 const User = require('../models/User');
 const { setTokenFile } = require('../utils/sessionTokenFileManager');
 const { loginValidator, registerUserValidator } = require('../validators/sessions');
-const getSpinner = require('../utils/spinnerImporter');
 const cfonts = require('cfonts');
 const getChalk = require('../utils/chalkImporter');
+const getSpinner = require('../utils/spinnerImporter');
 
 const sessionsController = {
     login: async () => {
@@ -28,6 +28,7 @@ const sessionsController = {
             spinner.start();
 
             // validator
+            console.table([userData]);
             await loginValidator(userData);
 
             const result = await User.login(userData.username, userData.password);

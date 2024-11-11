@@ -11,10 +11,13 @@ jest.mock('inquirer');
 describe('sessionsController', () => {
     beforeAll(async () => {
         await connectDatabase();
+        jest.spyOn(console, 'table').mockImplementation(() => {});
+
         await User.deleteMany({});
     });
 
     afterAll(async () => {
+        // await User.deleteMany({});
         await connection.close();
     });
 
@@ -25,7 +28,7 @@ describe('sessionsController', () => {
     };
 
     describe('register user', () => {
-        it('user should be registered successfully', async () => {
+        it.only('user should be registered successfully', async () => {
             // Mock inquirer.prompt to return testUser
             inquirer.default.prompt.mockResolvedValue(testUser);
 

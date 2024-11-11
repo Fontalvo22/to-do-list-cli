@@ -1,2 +1,2 @@
-db.createCollection('users'); // Crea una colección llamada 'todos'
-db.users.insert({ name: 'Franklin', password: 'example' }); // Inserta un documento en la colección 'todos'
+db.createCollection('users'); // create a collection called 'users'
+db.users.insert({ name: 'Franklin', password: 'example' }); // insert a document in the 'users' collection
