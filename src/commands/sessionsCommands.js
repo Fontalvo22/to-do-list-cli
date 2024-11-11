@@ -12,6 +12,13 @@ const commands = [
         description: 'Register a new user',
         action: sessionsController.registerUser,
     },
+
+    // I only put this here because I didn't want to create a new file just to display this information.
+    {
+        name: 'info',
+        description: 'get info about the app and the creator',
+        action: sessionsController.getAppInfo,
+    },
 ];
 
 module.exports = program => {

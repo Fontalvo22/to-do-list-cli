@@ -4,10 +4,10 @@ WORKDIR /app
 COPY . .
 
 RUN npm install
+RUN chmod +x index.js
 RUN npm link
-# RUN npm install -g .
 
-EXPOSE 3000
+# RUN npm install -g .
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh

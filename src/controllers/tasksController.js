@@ -12,6 +12,9 @@ const tasksController = {
 
         const ora = await getSpinner();
         const spinner = ora('Creating task');
+
+        inquirer.default.registerPrompt('datetime', require('inquirer-datepicker-prompt'));
+
         try {
             const taskData = await inquirer.default.prompt([
                 {
@@ -24,6 +27,12 @@ const tasksController = {
                     name: 'taskDescription',
                     message: 'insert the description of the task: ',
                 },
+                {
+                    type: 'datetime',
+                    name: 'deadLine',
+                    message: 'insert the deadline of the task: (optional format: dd/mm/yyyy hh:mm AM/PM)',
+                    format: ['d', '/', 'm', '/', 'yy', ' ', 'h', ':', 'MM', ' ', 'TT'],
+                },
             ]);
 
             const token = getDecodedToken();
@@ -32,12 +41,11 @@ const tasksController = {
 
             await createTaskValidator(taskData);
 
-            const taskCreated = await Task.createTask(taskData.taskTitle, taskData.taskDescription, token.userId);
+            const taskCreated = await Task.createTask(taskData.taskTitle, taskData.taskDescription, token.userId, taskData.deadLine);
 
             spinner.succeed('Task created successfully!');
-            const { _id, status } = taskCreated.toObject();
 
-            console.table([{ _id: _id, title: taskData.taskTitle, description: taskData.taskDescription, status: status }]);
+            console.table([taskCreated.toObject()]);
 
             return { success: true, message: 'Task created successfully', task: taskCreated };
         } catch (error) {

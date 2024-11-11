@@ -23,6 +23,11 @@ const taskSchema = new mongoose.Schema({
         required: true,
     },
 
+    deadLine: {
+        type: Date,
+        required: false,
+    },
+
     createdAt: {
         type: Date,
         default: Date.now,
@@ -45,13 +50,12 @@ taskSchema.pre('findOneAndUpdate', function (next) {
     setTimeout(next, 1000); // 1000 ms de retraso
 });
 
-taskSchema.statics.createTask = async function (title, description, user_id) {
+taskSchema.statics.createTask = async function (title, description, user_id, deadLine) {
     try {
-        const task = await Task.create({ title, description, user_id });
+        const task = await Task.create({ title, description, user_id, deadLine });
 
         return task;
     } catch (error) {
-        logger.error(error);
         throw error;
     }
 };
@@ -61,7 +65,6 @@ taskSchema.statics.editTask = async function (taskId, title, description) {
         const task = await Task.findOneAndUpdate({ _id: taskId }, { title, description }, { new: true });
         return task;
     } catch (error) {
-        logger.error(error);
         throw error;
     }
 };
