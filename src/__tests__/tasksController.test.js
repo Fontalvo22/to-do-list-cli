@@ -54,18 +54,16 @@ describe('tasksController', () => {
             expect(existingTask).not.toBeNull();
         });
 
-        it.only('should edit the task', async () => {
+        it('should edit the task', async () => {
             const existingTask = await Task.findOne({ title: taskData.taskTitle });
-
             const newTaskData = {
                 taskTitle: 'Edited Task',
                 taskDescription: 'Edited Description',
-                taskId: existingTask._id,
             };
 
             inquirer.default.prompt.mockResolvedValue(newTaskData);
 
-            const result = await tasksController.editTask();
+            const result = await tasksController.editTask(existingTask._id);
 
             expect(result.success).toBe(true);
             expect(result.task.title).toBe(newTaskData.taskTitle);
@@ -83,9 +81,9 @@ describe('tasksController', () => {
         it('should delete the task', async () => {
             const existingTask = await Task.findOne({ _id: taskData._id });
 
-            inquirer.default.prompt.mockResolvedValue({ taskId: existingTask._id });
+            // inquirer.default.prompt.mockResolvedValue({ taskId: existingTask._id });
 
-            const result = await tasksController.deleteTask();
+            const result = await tasksController.deleteTask(existingTask._id);
 
             expect(result.success).toBe(true);
             expect(result.message).toBe('Task deleted successfully');

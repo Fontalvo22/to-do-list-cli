@@ -26,7 +26,7 @@ const loginValidator = async data => {
     if (Object.keys(errors).length > 0) {
         const error = new Error('Some fields are wrong');
         error.fieldsFailed = errors;
-        console.error('some fields are wrong');
+        // console.error('some fields are wrong');
         console.table(error.fieldsFailed);
         throw error;
     } else {

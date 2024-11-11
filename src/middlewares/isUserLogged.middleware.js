@@ -5,7 +5,7 @@ const isUserLoggedMiddleware = async request => {
     const token = await getTokenFile();
 
     if (!token.token) {
-        console.error('User is not logged');
+        // console.error('User is not logged');
         process.exit(1);
     }
 

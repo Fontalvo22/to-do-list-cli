@@ -9,6 +9,9 @@ const { connectDatabase, connection } = require('./src/config/db');
 const program = new Command();
 
 const main = async () => {
+    if (process.env.RUN_MODE == 'dev') {
+        return undefined;
+    }
     try {
         await connectDatabase();
 

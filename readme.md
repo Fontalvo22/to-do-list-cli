@@ -36,7 +36,9 @@ Then, when you are inside of the docker container, you can see all the app comma
 tasks -h
 ```
 
-The only two commands that you can execute without login are: register and login
+The only two commands that you can execute without login are: register and login.
+
+All the commands have a small delay (1 sec) for simulate a real net lag and you can look how the spinners works
 
 Before start using the app, try typing:
 
