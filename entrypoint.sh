@@ -12,5 +12,6 @@ elif [ "$RUN_MODE" = "production" ]; then
   exec npm run dev
 else
   echo "Running in default mode"
+  # for not shutdown the container
   exec tail -f /dev/null
 fi

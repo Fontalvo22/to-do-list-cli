@@ -33,7 +33,7 @@ With all the containers running, you can interact with the app executing:
 Then, when you are inside of the docker container, you can see all the app commands using:
 
 ```bash
-tasks -h
+node index -h
 ```
 
 The only two commands that you can execute without login are: register and login.
@@ -43,7 +43,7 @@ All the commands have a small delay (1 sec) for simulate a real net lag and you 
 Before start using the app, try typing:
 
 ```bash
-tasks info
+node index info
 ```
 
 Ok, enough, I'll let you interact with the app, if you have any question or need anything, just contact me :wink:
