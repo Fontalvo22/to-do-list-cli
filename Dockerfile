@@ -1,11 +1,11 @@
-FROM node:22-alpine3.19
+FROM node:3.14.0a1-alpine3.20
 WORKDIR /app
 
 COPY . .
 
 RUN npm install
 RUN chmod +x index.js
-RUN npm link
+CMD ["npm", "link"]
 
 # RUN npm install -g .
 
